@@ -5,20 +5,14 @@ int main() {
     long long n, d;
     long long summouth = 0, numberweek = 0, daysinweek, numberinyear; //сумма месяцев для проверки на дни
     long long firstday = 1, firstmouth = 1, firstyear = 2001, firstweek = 1; // создание первоначальной даты
+    int countleapyear = 0; // счетчик для високосных годов
     string mouth, weekinday, numberday, leapyear;       //название месяца и дня недели
     bool flag1 = false;     //флаг на вискоксный год 
     cin >> n >> d; //вводим колво месяцев и дней
     setlocale(LC_ALL, "Russian");
-
+    
     firstday += d;
     firstmouth += n;
-    daysinweek = firstday;
-    
-    if (daysinweek > 7) {
-        while (daysinweek > 7) {
-            daysinweek -= 7;
-        }
-    }
 
     
     if (firstday > 365) {
@@ -30,6 +24,7 @@ int main() {
                 firstday -= 366;
                 flag1 = true;
                 firstyear += 1;
+                countleapyear++;
 
                 
             }
@@ -39,25 +34,9 @@ int main() {
                 flag1 = false;
             }
         }
-    }
-    
-   
-
-    numberweek = firstday;
-    if (numberweek > 7) {
-        while (numberweek > 7) {
-            numberweek -= 7;
-            firstweek++;
-        }
-    }
-    
-    
-    
+    } 
     numberinyear = firstday;
-    delta = 365 - firstday;
-    //cout << daysinweek << " " << numberweek;
-    
-    
+   
     //проверка на дни и добавление месяцев
     if (firstday > 31) { deltadays = 31; summouth = 1; }        //1 проверка на февраль
     if (firstday > 31 + 28) { deltadays = 31 + 28; summouth = 2; }     //2 проверка на март
@@ -91,15 +70,14 @@ int main() {
             }
         }
     }
-    
-    
-    
-    
+
+
     //это свич который выбирает месяц и колво дней в месяце
     switch (firstmouth) {        
     case 1:
         mouth = "январь";
         countdaysinmounth = 31;
+        countdaynum = 0;
         break;
 
     case 2:
@@ -163,6 +141,24 @@ int main() {
         break;
     }
 
+    long long SummCountDayNumAndFirstDay = countdaynum + firstday;
+    daysinweek = SummCountDayNumAndFirstDay;
+    delta = 365 - SummCountDayNumAndFirstDay;
+    
+    
+   
+    numberweek = SummCountDayNumAndFirstDay;
+    if (numberweek > 7) {
+        while (numberweek > 7) {
+            numberweek -= 7;
+            firstweek++;
+            
+        }
+    }
+    
+    if (flag1) daysinweek = (firstyear - 2001 + countleapyear + SummCountDayNumAndFirstDay + 1) % 7;
+    else daysinweek = (firstyear - 2001 + countleapyear + SummCountDayNumAndFirstDay) % 7;
+
     //определяем день недели
     switch (daysinweek) {
     case 1: weekinday = "понедельник"; break;
@@ -173,7 +169,7 @@ int main() {
     case 6: weekinday = "суббота"; break;
     case 7: weekinday = "воскресенье";  break;
     }
-
+    
     switch (firstday) {
     case 1: numberday = "первое"; break;
     case 2: numberday = "второе"; break;
@@ -211,17 +207,20 @@ int main() {
     if (flag1) leapyear = "високосный";
     else leapyear = "не високосный";
 
+    
 
     //блок вывода в консоль
     cout << "День недели: " << weekinday << endl;
-    cout << "Число: " <<numberday << endl;
-    cout << numberinyear << "-й день года" << endl;
-    cout << "Месяц: " << mouth << endl;
-    cout << "Дней в месяце: " << countdaysinmounth << endl;
-    cout << "Номер недели года: " << firstweek << endl;
+    cout << "Число: " <<numberday << endl; //+
+    cout << SummCountDayNumAndFirstDay << "-й день года" << endl; //+
+    cout << "Месяц: " << mouth << endl; //+
+    cout << "Дней в месяце: " << countdaysinmounth << endl; //+
+    cout << "Номер недели года: " << firstweek << endl; //+
     cout << "До конца года осталось: " << delta << endl;
-    cout << firstyear << ", " << leapyear;
+    cout << firstyear << ", " << leapyear; //+ 
 }
 //04.10.2023 была сделано большую часть проекта, я почти определил правильно дату, но есть ошибка в месяцах(фиксить буду завтра!!)
 //05.10.2023 пофиксил баг со временем
 //05.10.2023 проект почти готов
+//05.10.2023 2 часть  все готово, время тестировать
+// тесты провалены...выдает не верную дату 
