@@ -1,9 +1,9 @@
 ﻿#include <iostream>
 using namespace std;
 int main() {
-    int year = 2001, countdaysinmounth, countdaynum = 0, countdays = 0, deltadays = 0, delta; //countdaysinmounth - подсчитывает количество дней в месяце; countdaynum - подсчет номера дня; deltadays - разница между днями
+    long long year = 2001, countdaysinmounth, countdaynum = 0, countdays = 0, deltadays = 0, delta; //countdaysinmounth - подсчитывает количество дней в месяце; countdaynum - подсчет номера дня; deltadays - разница между днями
     long long n, d;
-    int summouth = 0, numberweek = 0, daysinweek, numberinyear; //сумма месяцев для проверки на дни
+    long long summouth = 0, numberweek = 0, daysinweek, numberinyear; //сумма месяцев для проверки на дни
     long long firstday = 1, firstmouth = 1, firstyear = 2001, firstweek = 1; // создание первоначальной даты
     string mouth, weekinday, numberday, leapyear;       //название месяца и дня недели
     bool flag1 = false;     //флаг на вискоксный год 
@@ -40,8 +40,19 @@ int main() {
             }
         }
     }
+    
+   
 
-    numberweek = firstday / 7;
+    numberweek = firstday;
+    if (numberweek > 7) {
+        while (numberweek > 7) {
+            numberweek -= 7;
+            firstweek++;
+        }
+    }
+    
+    
+    
     numberinyear = firstday;
     delta = 365 - firstday;
     //cout << daysinweek << " " << numberweek;
@@ -198,7 +209,7 @@ int main() {
     }
 
     if (flag1) leapyear = "високосный";
-    else leapyear = "не     високосный";
+    else leapyear = "не високосный";
 
 
     //блок вывода в консоль
@@ -207,9 +218,10 @@ int main() {
     cout << numberinyear << "-й день года" << endl;
     cout << "Месяц: " << mouth << endl;
     cout << "Дней в месяце: " << countdaysinmounth << endl;
-    cout << "Номер недели года: " << numberweek << endl;
+    cout << "Номер недели года: " << firstweek << endl;
     cout << "До конца года осталось: " << delta << endl;
     cout << firstyear << ", " << leapyear;
 }
 //04.10.2023 была сделано большую часть проекта, я почти определил правильно дату, но есть ошибка в месяцах(фиксить буду завтра!!)
 //05.10.2023 пофиксил баг со временем
+//05.10.2023 проект почти готов
