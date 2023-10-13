@@ -3,7 +3,7 @@ using namespace std;
 int main() {
     long long year = 2001, countdaysinmounth, countdaynum = 0, countdays = 0, deltadays = 0, delta; //countdaysinmounth - подсчитывает количество дней в месяце; countdaynum - подсчет номера дня; deltadays - разница между днями
     long long n, d;
-    long long summouth = 0, numberweek = 0, daysinweek, numberinyear; //сумма месяцев для проверки на дни
+    long long summouth = 0, numberweek = 0, daysinweek = 0, numberinyear; //сумма месяцев для проверки на дни
     long long firstday = 1, firstmouth = 1, firstyear = 2001, firstweek = 1; // создание первоначальной даты
     int countleapyear = 0; // счетчик для високосных годов
     string mouth, weekinday, numberday, leapyear;       //название месяца и дня недели
@@ -15,7 +15,7 @@ int main() {
     firstmouth += n;
 
     
-    if (firstday > 365) {
+    if (firstday > 365) {   
         while (firstday > 365) {
             if (firstday <= 365) {
                 break;
@@ -59,11 +59,13 @@ int main() {
         while (firstmouth > 12) {
             if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
                 firstmouth -= 12;
+                daysinweek += 366;
                 flag1 = true;
                 firstyear += 1;
             }
             else {
                 firstmouth -= 12;
+                daysinweek += 365;
                 firstyear += 1;
                 flag1 = false;
 
@@ -156,8 +158,9 @@ int main() {
         }
     }
     
-    if (flag1) daysinweek = (firstyear - 2001 + countleapyear + SummCountDayNumAndFirstDay + 1) % 7;
-    else daysinweek = (firstyear - 2001 + countleapyear + SummCountDayNumAndFirstDay) % 7;
+    daysinweek += (countdaynum + firstday + 1);
+    daysinweek %= 7;
+    
 
     //определяем день недели
     switch (daysinweek) {
@@ -167,7 +170,7 @@ int main() {
     case 4: weekinday = "четверг"; break;
     case 5: weekinday = "пятница"; break;
     case 6: weekinday = "суббота"; break;
-    case 7: weekinday = "воскресенье";  break;
+    case 0: weekinday = "воскресенье";  break;
     }
     
     switch (firstday) {
