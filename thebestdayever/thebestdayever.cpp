@@ -10,7 +10,7 @@ int main() {
     bool flag1 = false;     //флаг на вискоксный год 
     cin >> n >> d; //вводим колво месяцев и дней
     setlocale(LC_ALL, "Russian");
-    
+    long long SummCountDayNumAndFirstDay = 0;
     firstday += d;
     firstmouth += n;
 
@@ -20,11 +20,12 @@ int main() {
             if (firstday <= 365) {
                 break;
             }
-            else if ((firstyear % 4 == 0 and firstyear % 100 != 0) or (firstyear % 400 == 0)) {
+            if ((firstyear % 4 == 0 and firstyear % 100 != 0) or (firstyear % 400 == 0)) {
                 firstday -= 366;
                 flag1 = true;
                 firstyear += 1;
-                countleapyear++;
+                daysinweek += 365;
+                daysinweek++;
 
                 
             }
@@ -32,11 +33,12 @@ int main() {
                 firstday -= 365;
                 firstyear += 1;
                 flag1 = false;
+                daysinweek += 365;
             }
         }
     } 
     numberinyear = firstday;
-   
+
     //проверка на дни и добавление месяцев
     if (firstday > 31) { deltadays = 31; summouth = 1; }        //1 проверка на февраль
     if (firstday > 31 + 28) { deltadays = 31 + 28; summouth = 2; }     //2 проверка на март
@@ -54,14 +56,14 @@ int main() {
     firstday -= deltadays;
     firstmouth += summouth;
     
-
     if (firstmouth > 12) {       //проверяем если месяцев больше чем 12
         while (firstmouth > 12) {
-            if ((year % 4 == 0 && year % 100 != 0) || (year % 400 == 0)) {
+            if ((firstyear % 4 == 0 && firstyear % 100 != 0) || (firstyear % 400 == 0)) {
                 firstmouth -= 12;
-                daysinweek += 366;
+                daysinweek += 365;
                 flag1 = true;
                 firstyear += 1;
+                daysinweek++;
             }
             else {
                 firstmouth -= 12;
@@ -70,9 +72,10 @@ int main() {
                 flag1 = false;
 
             }
+            
         }
     }
-
+    
 
     //это свич который выбирает месяц и колво дней в месяце
     switch (firstmouth) {        
@@ -93,62 +96,102 @@ int main() {
 
     case 3:
         mouth = "март";
-        countdaysinmounth = 31;
-        countdaynum += 31 + 28;
+        countdaysinmounth = 31; 
+        if (flag1) {
+            countdaynum += 31 + 29;
+        }
+        else countdaynum += 31 + 28;
         break;
     case 4:
         mouth = "апрель";
         countdaysinmounth = 30;
-        countdaynum += 31 * 2 + 28;
+        if (flag1) {
+            countdaynum += 31 * 2 + 29;
+        }
+        else countdaynum += 31 * 2 + 28;
         break;
     case 5:
         mouth = "май";
         countdaysinmounth = 31;
-        countdaynum += 31 * 2 + 28 + 30;
+        
+        if (flag1) {
+            countdaynum += 31 * 2 + 29 + 30;
+        }
+        else countdaynum += 31 * 2 + 28 + 30;
         break;
     case 6:
         mouth = "июнь";
         countdaysinmounth = 30;
-        countdaynum += 31 * 3 + 28 + 30;
+        
+        if (flag1) {
+            countdaynum += 31 * 3 + 29 + 30;
+        }
+        else countdaynum += 31 * 3 + 28 + 30;
         break;
 
     case 7:
         mouth = "июль";
         countdaysinmounth = 31;
-        countdaynum += 31 * 3 + 28 + 30 * 2;
+        if(flag1) {
+            countdaynum += 31 * 3 + 29 + 30 * 2;
+
+        }
+        else countdaynum += 31 * 3 + 28 + 30 * 2;
+        break;
     case 8:
         mouth = "август";
         countdaysinmounth = 31;
-        countdaynum += 31 * 4 + 28 + 30 * 2;
+        if (flag1) {
+            countdaynum += 31 * 4 + 29 + 30 * 2;
+
+        }
+        else countdaynum += 31 * 4 + 28 + 30 * 2;
         break;
     case 9:
         mouth = "сентябрь";
         countdaysinmounth = 30;
-        countdaynum += 31 * 5 + 28 + 30 * 2;
+        if (flag1) {
+            countdaynum += 31 * 5 + 29 + 30 * 2;
+
+        }
+        else countdaynum += 31 * 5 + 28 + 30 * 2;
         break;
     case 10:
         mouth = "октябрь";
         countdaysinmounth = 31;
-        countdaynum += 31 * 5 + 28 + 30 * 3;
+        if (flag1) {
+            countdaynum += 31 * 5 + 29 + 30 * 3;
+
+        }
+        else countdaynum += 31 * 5 + 28 + 30 * 3;
         break;
     case 11:
         mouth = "ноябрь";
         countdaysinmounth = 30;
-        countdaynum += 31 * 6 + 28 + 30 * 3;
+        if (flag1) {
+            countdaynum += 31 * 6 + 29 + 30 * 3;
+
+        }
+        else countdaynum += 31 * 6 + 28 + 30 * 3;
         break;
     case 12:
         mouth = "декабрь";
         countdaysinmounth = 31;
-        countdaynum += 31 * 6 + 28 + 30 * 4;
+        
+        if (flag1) {
+            countdaynum += 31 * 6 + 29 + 30 * 4;
+
+        }
+        else countdaynum += 31 * 6 + 28 + 30 * 4;
         break;
     }
 
-    long long SummCountDayNumAndFirstDay = countdaynum + firstday;
-    daysinweek = SummCountDayNumAndFirstDay;
+    SummCountDayNumAndFirstDay = countdaynum + firstday;
+    daysinweek += countdaynum + firstday;
     delta = 365 - SummCountDayNumAndFirstDay;
     
     
-   
+    daysinweek %= 7;
     numberweek = SummCountDayNumAndFirstDay;
     if (numberweek > 7) {
         while (numberweek > 7) {
@@ -158,19 +201,18 @@ int main() {
         }
     }
     
-    daysinweek += (countdaynum + firstday + 1);
-    daysinweek %= 7;
+    
     
 
     //определяем день недели
     switch (daysinweek) {
+    case 0: weekinday = "воскресенье";  break;
     case 1: weekinday = "понедельник"; break;
     case 2: weekinday = "вторник"; break;
     case 3: weekinday = "среда"; break;
     case 4: weekinday = "четверг"; break;
     case 5: weekinday = "пятница"; break;
     case 6: weekinday = "суббота"; break;
-    case 0: weekinday = "воскресенье";  break;
     }
     
     switch (firstday) {
